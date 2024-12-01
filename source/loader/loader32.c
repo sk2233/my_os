@@ -38,7 +38,7 @@ uint32_t parse_elf_file(uint8_t *elf_file){
         // 非法格式
         return 0;
     }
-    // 依次处理每一项
+    // 依次处理每一项 一个 elf文件总头下有多个项目头
     for (int i = 0; i < ehdr->phnum; ++i) {
         elf_phdr_t *hdr=(elf_phdr_t *)(elf_file+ehdr->phoff);
         if(hdr->type!=PT_LOAD){ // 改类型无需加载进内存

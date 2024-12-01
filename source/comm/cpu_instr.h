@@ -40,6 +40,19 @@ static inline void lgdt(uint32_t start,uint16_t size){
     __asm__ __volatile__("lgdt %[g]"::[g]"m"(gdt));
 }
 
+static inline void lidt(uint32_t start, uint32_t size) {
+    struct {
+        uint16_t limit;
+        uint16_t start1;
+        uint16_t start2;
+    } idt;
+    idt.start2 = start >> 16;
+    idt.start1 = start & 0xFFFF;
+    idt.limit = size - 1;
+
+    __asm__ __volatile__("lidt %[i]"::[i]"m"(idt));
+}
+
 static inline uint32_t read_cr0() {
     uint32_t cr0;
     __asm__ __volatile__("mov %%cr0, %[v]":[v]"=r"(cr0));
@@ -53,6 +66,10 @@ static inline void write_cr0(uint32_t cr0) {
 static inline void far_jump(uint32_t selector, uint32_t offset) {
     uint32_t addr[] = {offset, selector };
     __asm__ __volatile__("ljmpl *(%[a])"::[a]"r"(addr));
+}
+
+static inline void hlt() {
+    __asm__ __volatile__("hlt");
 }
 
 #endif

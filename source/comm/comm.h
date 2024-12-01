@@ -4,4 +4,12 @@
 #define SECTOR_SIZE 512
 #define SYS_KERNEL_LOAD_ADDR 0x100000
 
+#define GDT_TABLE_SIZE 256
+#define IDT_TABLE_SIZE 128
+
+#define KERNEL_SELECTOR_CS 8
+#define KERNEL_SELECTOR_DS 16
+
+#define OS_TICK_MS 10
+
 #endif

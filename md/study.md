@@ -22,3 +22,22 @@ https://www.yuque.com/lishutong-docs/lines200/bwqcvq
 ![img_7.png](img_7.png)
 ## elf数据存储
 ![img_9.png](img_9.png)
+## 内存分段分页
+![img_8.png](img_8.png)
+## 段选择子
+![img_10.png](img_10.png)
+索引从3开始存储，低 3 位有其他用途
+## 内存访问的过程
+![img_11.png](img_11.png)
+基地址+偏移地址=线性地址<br>
+若是开启了分页，线性地址还需要再转换
+## 中断处理
+![img_12.png](img_12.png)
+![img_13.png](img_13.png)
+基地址在gdt表项中，偏移在idt表项中
+## 中断保护
+![img_14.png](img_14.png)
+发生中断时cpu会自动压入栈中一些寄存器，还需要我们手动压入一些寄存器进行保护
+## 中断处理参数传递
+![img_15.png](img_15.png)
+压入栈顶esp相当于上述参数结构体的指针(栈从高向低)
