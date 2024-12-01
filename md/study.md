@@ -14,3 +14,11 @@ https://www.yuque.com/lishutong-docs/lines200/bwqcvq
 ## 实模式内存映射
 ![img_4.png](img_4.png)
 实模式下只能访问1m以内的内存，只有灰色区域可以自由使用(Boot程序与Boot栈区也在灰色区域)
+## 实模式
+![img_5.png](img_5.png)
+## 保护模式
+![img_6.png](img_6.png)
+## 保护模式切换流程
+![img_7.png](img_7.png)
+## elf数据存储
+![img_9.png](img_9.png)
