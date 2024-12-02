@@ -41,3 +41,7 @@ https://www.yuque.com/lishutong-docs/lines200/bwqcvq
 ## 中断处理参数传递
 ![img_15.png](img_15.png)
 压入栈顶esp相当于上述参数结构体的指针(栈从高向低)
+## TSS中各个字段
+![img_16.png](img_16.png)
+## 任务切换
+![img_17.png](img_17.png)

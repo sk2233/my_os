@@ -1,7 +1,8 @@
 #include "dev/time.h"
 #include "cpu/irq.h"
+#include "core/task.h"
 
-static uint32_t timer;
+static int tick;
 
 void exception_handler_time();
 
@@ -15,8 +16,13 @@ void time_init(){
     irq_install(IRQ0_TIMER,exception_handler_time);
 }
 
+int sys_tick(){
+    return tick;
+}
+
 void do_handle_time(exception_frame_t *frame){
-    timer++;
+    tick++;
     irq_send_eoi(IRQ0_TIMER); // 必须响应才声明能处理下一个了
+    task_tick();
 }
 

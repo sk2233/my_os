@@ -21,6 +21,7 @@
 #define SEG_CODE (1<<3)
 #define SEG_DATA (0<<3)
 #define SEG_RW (1<<1)
+#define SEG_TSS      	(9 << 0)		// 32位TSS
 
 #pragma pack(1)
 typedef struct seg_desc{
@@ -33,5 +34,7 @@ typedef struct seg_desc{
 #pragma pack()
 
 void cpu_init();
+int gdt_alloc_desc();
+void seg_desc_set(int selector,uint32_t base,uint32_t limit,uint16_t attr);
 
 #endif

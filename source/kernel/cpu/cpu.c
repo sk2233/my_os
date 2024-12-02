@@ -3,6 +3,17 @@
 
 static seg_desc_t gdt_table[GDT_TABLE_SIZE];
 
+int gdt_alloc_desc(){
+    // 0不能占用
+    for (int i = 1; i < GDT_TABLE_SIZE; i++) {
+        seg_desc_t *desc = gdt_table + i;
+        if (desc->attr == 0) {
+            return i<<3;
+        }
+    }
+    return -1;
+}
+
 void seg_desc_set(int selector,uint32_t base,uint32_t limit,uint16_t attr){
     seg_desc_t *desc=gdt_table+(selector>>3); // 之所以偏移是因为段选择子下标是从第 3 位开始的，具体参考段选择子结构
     if(limit>0xFFFFF){

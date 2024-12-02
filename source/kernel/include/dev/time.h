@@ -10,5 +10,6 @@
 #define PIT_COMMAND_MODE_PORT        0x43
 
 void time_init();
+int sys_tick();
 
 #endif
