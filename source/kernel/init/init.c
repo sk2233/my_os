@@ -2,6 +2,7 @@
 #include "cpu/cpu.h"
 #include "dev/time.h"
 #include "core/task.h"
+#include "ipc/mutex.h"
 
 void kernel_init(){
     cpu_init();
@@ -16,7 +17,6 @@ void task_entry(){
     int count =0;
     for (;;) {
         count++;
-        task_sleep(1000);
     }
 }
 

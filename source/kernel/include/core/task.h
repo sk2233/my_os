@@ -40,10 +40,16 @@ typedef struct task_manager{
 void task_manager_init();
 void curr_task_init(task_t *task);
 void task_yield();
+task_t *curr_task();
 
 void task_init(task_t *task,uint32_t entry,const char *name,uint32_t esp);
 void switch_task(int tss_sel);
 void task_tick();
 void task_sleep(int ms);
+void task_dispatch();
+
+task_t *task_poll();
+void task_add(task_t *task);
+
 
 #endif

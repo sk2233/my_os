@@ -91,3 +91,13 @@ void irq_send_eoi(int irq_num){
     }
     outb(PIC0_OCW2, 1 << 5);
 }
+
+uint32_t irq_enter_protection(){
+    uint32_t state = read_eflags();
+    cli(); // 实际就是改  eflags
+    return state;
+}
+
+void irq_leave_protection(uint32_t state){ // 不能直接通过开关中断需要通过记录状态完成
+    write_eflags(state);
+}

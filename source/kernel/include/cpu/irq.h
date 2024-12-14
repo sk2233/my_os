@@ -56,4 +56,7 @@ void irq_enable(int irq_num);
 void irq_disable(int irq_num);
 void irq_send_eoi(int irq_num);
 
+uint32_t irq_enter_protection();
+void irq_leave_protection(uint32_t state);
+
 #endif

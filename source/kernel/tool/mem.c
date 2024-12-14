@@ -30,3 +30,7 @@ void *mem_alloc(int size){ // TODO 先临时使用
     addr+=size;
     return res;
 }
+
+void mem_free(void *mem){ // TODO 先临时使用
+
+}

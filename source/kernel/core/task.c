@@ -48,6 +48,10 @@ void task_yield(){
     task_dispatch();
 }
 
+task_t *curr_task(){
+    return task_manager.curr_task;
+}
+
 void task_init(task_t *task,uint32_t entry,const char *name,uint32_t esp){
     task->tss_sel=gdt_alloc_desc();
     seg_desc_set(task->tss_sel, (uint32_t)&task->tss, sizeof(tss_t),
@@ -64,9 +68,7 @@ void task_init(task_t *task,uint32_t entry,const char *name,uint32_t esp){
     task->tss.cs=KERNEL_SELECTOR_CS;
     task->tss.eflags=EFLAGS_DEFAULT|EFLAGS_IF;
 
-    node_t *node= mem_alloc(sizeof(node_t));
-    node->data=task;
-    list_add(&task_manager.ready,node);
+    task_add(task);
 }
 
 void switch_task(int tss_sel){
@@ -104,4 +106,17 @@ void task_sleep(int ms){
     list_order_add(&task_manager.wait,node);
 
     task_dispatch();
+}
+
+task_t *task_poll(){
+    node_t *node= list_poll(&task_manager.ready);
+    task_t *res=node->data;
+    mem_free(node);
+    return res;
+}
+
+void task_add(task_t *task){
+    node_t *node= mem_alloc(sizeof(node_t));
+    node->data=task;
+    list_add(&task_manager.ready,node);
 }
