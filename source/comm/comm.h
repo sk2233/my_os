@@ -10,6 +10,8 @@
 #define KERNEL_SELECTOR_CS 8
 #define KERNEL_SELECTOR_DS 16
 
+#define SELECTOR_SYSCALL 24
+
 #define OS_TICK_MS 10
 
 #endif

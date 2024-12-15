@@ -1,5 +1,6 @@
 #include "cpu/cpu.h"
 #include "cpu/irq.h"
+#include "core/syscall.h"
 
 static seg_desc_t gdt_table[GDT_TABLE_SIZE];
 
@@ -37,6 +38,14 @@ void init_gdt(){
                  SEG_P|SEG_DPL0|SEG_NORMAL|SEG_DATA|SEG_RW|SEG_D);
     seg_desc_set(KERNEL_SELECTOR_CS,0,0xFFFFFFFF,
                  SEG_P|SEG_DPL0|SEG_NORMAL|SEG_CODE|SEG_RW|SEG_D);
+    // 设置调用门  调用门是存储在全局描述符表了的,但是使用 idt 的存储格式
+    gate_desc_t *gate = (gate_desc_t *)(gdt_table+(SELECTOR_SYSCALL>>3));
+    gate->selector=KERNEL_SELECTOR_CS;
+    gate->attr=GATE_P | GATE_DPL3 | GATE_SYSCALL | SYSCALL_PARAM_COUNT; // 设置为都可以调用
+    uint32_t offset = (uint32_t)syscall_handler;
+    gate->offset0=offset&0xFFFF;
+    gate->offset1=(offset>>16)&0xFFFF;
+    // 加载描述符表
     lgdt((uint32_t)gdt_table, sizeof(gdt_table));
 }
 

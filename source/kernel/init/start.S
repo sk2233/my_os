@@ -71,3 +71,7 @@ exception_handler_\name:
 // 除 0 异常
 exception_handler division 0 0
 exception_handler time 0x20 0
+
+    .global syscall_handler
+syscall_handler:
+    ret

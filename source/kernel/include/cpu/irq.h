@@ -25,6 +25,7 @@
 
 // 中断门
 #define GATE_INT (0xE<<8)
+#define GATE_SYSCALL	(0xC << 8)		// 调用门
 // 是否有效
 #define GATE_P (1<<15)
 // 等级
