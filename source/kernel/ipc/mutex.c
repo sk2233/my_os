@@ -1,5 +1,6 @@
 #include "ipc/mutex.h"
 #include "cpu/irq.h"
+#include "core/mem.h"
 
 void mutex_init(mutex_t *mutex){
     mem_set(mutex,0, sizeof(mutex_t));

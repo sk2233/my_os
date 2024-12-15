@@ -2,6 +2,8 @@
 #include "comm/comm.h"
 #include "cpu/cpu.h"
 #include "dev/time.h"
+#include "core/mem.h"
+#include "cpu/mmu.h"
 
 static task_manager_t task_manager;
 static task_t task_idle;
@@ -63,10 +65,11 @@ void task_init(task_t *task,uint32_t entry,const char *name,uint32_t esp){
 
     mem_set(&task->tss,0, sizeof(tss_t));
     task->tss.eip=entry;
-    task->tss.esp=task->tss.esp0=esp;
+    task->tss.esp=task->tss.esp0=esp; // xx0 就是对应在特权级 0 下的数据  其他特权级触发问题中断会切换到特权级 0
     task->tss.ss=task->tss.ss0=task->tss.es=task->tss.ds=task->tss.fs=task->tss.gs=KERNEL_SELECTOR_DS;
     task->tss.cs=KERNEL_SELECTOR_CS;
     task->tss.eflags=EFLAGS_DEFAULT|EFLAGS_IF;
+    task->tss.cr3 =default_cr3(); // 先与操作系统共用页表
 
     task_add(task);
 }

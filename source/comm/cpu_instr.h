@@ -86,4 +86,8 @@ static inline void write_eflags(uint32_t eflags) {
     __asm__ __volatile__("pushl %%eax\n\tpopfl"::"a"(eflags));
 }
 
+static inline void write_cr3(uint32_t cr3){ // 写入页表
+    __asm__ __volatile__("mov %[v], %%cr3"::[v]"r"(cr3));
+}
+
 #endif

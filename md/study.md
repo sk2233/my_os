@@ -47,3 +47,21 @@ https://www.yuque.com/lishutong-docs/lines200/bwqcvq
 ![img_17.png](img_17.png)
 ## 基本锁结构
 ![img_18.png](img_18.png)
+## 内存布局
+![img_21.png](img_21.png)
+## 地址转换
+![img_22.png](img_22.png)
+## 二级页表转换
+![img_23.png](img_23.png)
+## 一级二级页表结构
+![img_24.png](img_24.png)
+## 特权隔离
+![img_25.png](img_25.png)
+## 特权级别
+![img_26.png](img_26.png)
+![img_27.png](img_27.png)
+CPL：本身所处的特权级<br> 
+RPL：访问数据使用的特权级(位于段选择子)<br>
+DPL：目标数据所需的特权级(位于段描述符)
+![img_28.png](img_28.png)
+分页中系统内存只允许特权级 0 进行访问
