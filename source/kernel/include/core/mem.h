@@ -21,5 +21,6 @@ void mem_init();
 void *mem_alloc(int size);
 void mem_free(void *mem);
 void *mem_alloc_page(int page);
+void mem_occupy(void *mem,int size);
 
 #endif

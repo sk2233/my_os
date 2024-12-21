@@ -51,5 +51,6 @@ void task_dispatch();
 task_t *task_poll();
 void task_add(task_t *task);
 
+void exec_task(uint32_t arg);
 
 #endif

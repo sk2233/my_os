@@ -38,6 +38,7 @@ uint32_t parse_elf_file(uint8_t *elf_file){
         // 非法格式
         return 0;
     }
+
     // 依次处理每一项 一个 elf文件总头下有多个项目头
     for (int i = 0; i < ehdr->phnum; ++i) {
         elf_phdr_t *hdr=(elf_phdr_t *)(elf_file+ehdr->phoff)+i;
@@ -59,7 +60,7 @@ uint32_t parse_elf_file(uint8_t *elf_file){
 
 void load_kernel(){
     // 认为 kernel 存在在  100 ~ 612 区域，加载到 1m 的内存区域  只是暂时存放 最终还是放在  64k 的位置执行
-    read_disk(100,512,(uint8_t *)SYS_KERNEL_LOAD_ADDR); // 加载 elf文件到 1m处
+    read_disk(100,256,(uint8_t *)SYS_KERNEL_LOAD_ADDR); // 加载 elf文件到 1m处
     uint32_t addr = parse_elf_file((uint8_t *)SYS_KERNEL_LOAD_ADDR);
     ((void (*)(void ))addr)();
 }

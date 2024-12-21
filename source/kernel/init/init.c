@@ -40,6 +40,8 @@ void main_init(){
     // mem_free(data);
 //    sys_call(&args);
 
+    exec_task(2233);
+
     int count =0;
     for (;;) {
         count++;

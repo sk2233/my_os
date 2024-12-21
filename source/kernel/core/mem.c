@@ -51,6 +51,16 @@ void *mem_alloc_page(int page){ // 按页分配
     return res;
 }
 
+void mem_occupy(void *mem,int size){ // 霸占指定区域
+    int start = (int)mem-MEM_ADDR;
+    int end = start+size;
+    start=start/MEM_PAGE_SIZE;
+    end=(end+MEM_PAGE_SIZE-1)/MEM_PAGE_SIZE;
+    for (int i = start; i <end; ++i) {
+        bitmap_set(&bitmap,i,TRUE);
+    }
+}
+
 void *mem_alloc(int size){
     return mem_alloc_page((size+MEM_PAGE_SIZE-1)/MEM_PAGE_SIZE);
 }
