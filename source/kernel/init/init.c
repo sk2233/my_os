@@ -6,12 +6,16 @@
 #include "core/mem.h"
 #include "cpu/mmu.h"
 #include "core/syscall.h"
+#include "dev/console.h"
+#include "dev/kbd.h"
 
 void kernel_init(){
     cpu_init();
     time_init();
+    kbd_init();
     mem_init(); // 初始化内存管理
     mmu_init(); // 初始化 内存分页设置
+    console_init();
 }
 
 static task_t task_test;
@@ -33,7 +37,11 @@ void main_init(){
     task_init(&task_test,(uint32_t)task_entry,"test",(uint32_t)&task_test_stack[1024]);
     curr_task_init(&task_main);
     sti();
-    
+
+    console_clear();
+    console_style(COLOR_BLACK,COLOR_RED,FALSE);
+    console_write("Hello World!",13);
+
     // void *data= mem_alloc_page(1);
     // mem_free(data);
     // data= mem_alloc_page(1);

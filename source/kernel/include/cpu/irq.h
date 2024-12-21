@@ -22,6 +22,7 @@
 #define PIC1_IMR		0x00A1
 
 #define IRQ0_TIMER          0x20
+#define IRQ1_KBD    0x21
 
 // 中断门
 #define GATE_INT (0xE<<8)
