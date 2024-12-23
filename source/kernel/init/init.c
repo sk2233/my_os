@@ -8,6 +8,7 @@
 #include "core/syscall.h"
 #include "dev/console.h"
 #include "dev/kbd.h"
+#include "core/fs.h"
 
 void kernel_init(){
     cpu_init();
@@ -16,6 +17,7 @@ void kernel_init(){
     mem_init(); // 初始化内存管理
     mmu_init(); // 初始化 内存分页设置
     console_init();
+    fs_init();
 }
 
 static task_t task_test;

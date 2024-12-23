@@ -46,5 +46,6 @@ void console_init();
 void console_write(const char *str,int len);
 void console_clear();
 void console_style(char bg,char fg,boot_t flash);
+void console_base(int base);
 
 #endif

@@ -31,10 +31,18 @@ void scroll_up(int line){
 }
 
 void update_cursor(){
-    outb(0x3D4, 0x0F);		// 写低地址
-    outb(0x3D5, (uint8_t) (console.cursor & 0xFF));
     outb(0x3D4, 0x0E);		// 写高地址
     outb(0x3D5, (uint8_t) ((console.cursor >> 8) & 0xFF));
+    outb(0x3D4, 0x0F);		// 写低地址
+    outb(0x3D5, (uint8_t) (console.cursor & 0xFF));
+}
+
+void console_base(int base){ // 设置显示的初始位置
+    uint16_t pos=base*CONSOLE_COL;
+    outb(0x3D4, 0x0C);		// 写高地址
+    outb(0x3D5, (uint8_t) ((pos >> 8) & 0xFF));
+    outb(0x3D4, 0x0D);		// 写低地址
+    outb(0x3D5, (uint8_t) (pos & 0xFF));
 }
 
 void console_write(const char *str,int len){
@@ -64,5 +72,5 @@ void console_clear(){
 void console_style(char bg,char fg,boot_t flash){
     console.bg=bg;
     console.fg=fg;
-    console.flash=flash;
+    console.flash=(char)flash;
 }

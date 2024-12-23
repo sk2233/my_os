@@ -77,3 +77,17 @@ DPL：目标数据所需的特权级(位于段描述符)
 ![img_33.png](img_33.png)
 可以虚拟 8 个显示屏，每次只展示一个
 ![img_32.png](img_32.png)
+## 文件系统
+![img_34.png](img_34.png)
+## 磁盘读取
+![img_35.png](img_35.png)
+## 磁盘分区
+![img_36.png](img_36.png)
+分区信息存储在引导扇区中，可以使用扩展分区添加更多分区
+![img_37.png](img_37.png)
+## 中断读取文件
+![img_38.png](img_38.png)
+## FAT16文件系统
+![img_40.png](img_40.png)
+![img_41.png](img_41.png)
+FAT表 1 与 FAT表 2 互为备份，dbr是元数据信息

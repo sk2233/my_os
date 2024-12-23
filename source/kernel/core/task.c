@@ -130,7 +130,7 @@ void task_add(task_t *task){
 uint32_t load_elf_file(){
     void *buff= mem_alloc_page(2); // 8k 够用了
     elf_ehdr_t *ehdr=buff;
-    read_disk(5000,10,buff);
+    read_disk(DISK_MASTER,5000,10,buff);
     if(ehdr->ident[0] != 0x7F || ehdr->ident[1] != 'E' || ehdr->ident[2] != 'L' || ehdr->ident[3] != 'F'){
         // 非法格式
         return 0;
