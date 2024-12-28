@@ -1,6 +1,7 @@
 #include "dev/kbd.h"
 #include "cpu/irq.h"
 #include "dev/console.h"
+#include "dev/sound.h"
 
 void kbd_init(){
     irq_enable(IRQ0_KBD);

@@ -93,6 +93,7 @@ DPL：目标数据所需的特权级(位于段描述符)
 FAT表 1 与 FAT表 2 互为备份，dbr是元数据信息
 ## 声卡
 ![img_42.png](img_42.png)
+![img_48.png](img_48.png)
 ## wav文件格式
 ![img_43.png](img_43.png)
 ```shell

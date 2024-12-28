@@ -96,17 +96,17 @@ static uint8_t DMA_PAGE[] = {
 };
 
 // 设置起始地址
-void dma_addr(uint8_t channel, void *addr){
+void dma_addr(uint8_t channel, void *addr){ // 地址 32 位只有  24位有效  地址最大只能是 24位 16m 以内
     uint16_t port = DMA_ADDR[channel];
-    uint16_t offset = ((uint32_t)addr) % 0x10000; // 64k
+    uint16_t offset = ((uint32_t)addr) % 0x10000; // 64k  先取低 16位
     if (channel > 4){
         offset >>= 1;
     }
     outb(port, offset & 0xFF);
     outb(port, (offset >> 8) & 0xFF);
 
-    port = DMA_PAGE[channel];
-    outb(port, (uint32_t)addr >> 16);
+    port = DMA_PAGE[channel]; // dma 一个页  64k
+    outb(port, (uint32_t)addr >> 16); // 再取高 8 位
 }
 
 // 各通道计数寄存器
@@ -127,7 +127,7 @@ void dma_size(uint8_t channel, uint32_t size){
     if (channel >= 5){
         size >>= 1;
     }
-    outb(port, (size - 1) & 0xFF);
+    outb(port, (size - 1) & 0xFF); // 因为 -1 最大只能传输  0x10000 64k
     outb(port, ((size - 1) >> 8) & 0xFF);
 }
 
@@ -153,11 +153,11 @@ void dma_mode(uint8_t channel, uint8_t mode){
 
 static uint8_t channel; // DMA 通道 一般有 8个
 static void *buff;
-static int buff_size;
+static uint32_t buff_size;
 static uint32_t sample_rate;
 
 void write_data(){
-    uint16_t size=0x4000;
+    uint32_t size=0x10000; // 使用最大的 64k 缓存
     if(buff_size<size){
         size=buff_size;
     }
@@ -180,13 +180,16 @@ void write_data(){
         sound_out(0xC0);
         sound_out(0x00);
     }// 设置写入数据大小
-    sound_out((size - 1) & 0xFF);
+    sound_out((size - 1) & 0xFF); // -1 最大只能传输  64k
     sound_out(((size - 1) >> 8) & 0xFF);
     dma_mask(channel, TRUE); // 关闭 DMA
 }
 
 void do_handle_sound(exception_frame_t *frame){
     irq_send_eoi(IRQ0_SOUND); // 必须响应才声明能处理下一个了
+    // 声霸卡中断响应  需要独立响应
+    inb(0x22F);
+    uint8_t state = inb(SOUND_STATE_PORT);
     if(buff_size>0){ // 还有数据继续拷贝
         write_data();
     }
@@ -194,25 +197,26 @@ void do_handle_sound(exception_frame_t *frame){
 
 void play_sound(int pos){
     // 读取 wave 文件
-    wav_header_t *header= mem_alloc_page(15);
-    read_disk(DISK_MASTER,pos,120,header);
+    wav_header_t *header= mem_alloc_page(300);
+    read_disk(DISK_MASTER,pos,2400,header);
     // 简单校验格式
     if(header->wave[0]!='W'||header->wave[1]!='A'||header->wave[2]!='V'||header->wave[3]!='E'){
         return;
     }
     if(header->bits==8&&header->channels==1){
         // 8位 单声道
-        channel=1;
+        channel=1; // DMA 通道 1 2 3  用于 8 位数据的传输  0 用于 DRAM 刷新不能使用
     } else if(header->bits==16&&header->channels==2){
         // 16位 双声道
-        channel=5;
+        channel=5; // DMA 通过  5 6 7 用于 16 位数据的传输  4 用于连接从片不能使用
+        // DMA 的传输内容必须是连续的
     } else{
         return;
     }
 
     // 初始化 dma 与要传输的参数
     dma_reset(channel);
-    buff_size=(int)header->data_size;
+    buff_size=header->chunk_size;
     sample_rate=header->sample_rate;
     buff=header+1;// 移除头部信息
 //    mem_cpy(buff,header+1,buff_size); // 移除头部信息 并对齐
