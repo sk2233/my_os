@@ -10,8 +10,8 @@ dd if=loader.bin of=$DISK1_NAME bs=512 conv=notrunc seek=1
 dd if=kernel.elf of=$DISK1_NAME bs=512 conv=notrunc seek=100
 
 # 写应用程序init，临时使用
-# dd if=init.elf of=$DISK1_NAME bs=512 conv=notrunc seek=5000
-dd if=shell.elf of=$DISK1_NAME bs=512 conv=notrunc seek=5000
+dd if=shell.elf of=$DISK1_NAME bs=512 conv=notrunc seek=1000
+dd if=baby.wav of=$DISK1_NAME bs=512 conv=notrunc seek=2000
 
 # 写应用程序，使用系统的挂载命令
 # export DISK2_NAME=disk2.dmg

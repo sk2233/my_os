@@ -9,6 +9,7 @@
 #include "dev/console.h"
 #include "dev/kbd.h"
 #include "core/fs.h"
+#include "dev/sound.h"
 
 void kernel_init(){
     cpu_init();
@@ -18,6 +19,7 @@ void kernel_init(){
     mmu_init(); // 初始化 内存分页设置
     console_init();
     fs_init();
+    sound_init();
 }
 
 static task_t task_test;
@@ -43,6 +45,7 @@ void main_init(){
     console_clear();
     console_style(COLOR_BLACK,COLOR_RED,FALSE);
     console_write("Hello World!",13);
+    play_sound(2000);
 
     // void *data= mem_alloc_page(1);
     // mem_free(data);
@@ -50,7 +53,7 @@ void main_init(){
     // mem_free(data);
 //    sys_call(&args);
 
-    exec_task(2233);
+    //exec_task(2233);
 
     int count =0;
     for (;;) {

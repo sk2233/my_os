@@ -113,12 +113,12 @@ void fs_init(){
 //    file_create("test");
 //    fs_list();
 //    fs_flush();
-    file_t *file=file_open("test",FALSE);
+    //file_t *file=file_open("test",FALSE);
 //    file_write(file,12,"Hello World!");
 //    file_close(file);
 //    fs_flush();
-    char buff[32];
-    file_read(file,12,buff);
+    //char buff[32];
+    // file_read(file,12,buff);
 }
 
 // 写入元数据

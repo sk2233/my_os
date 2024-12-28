@@ -3,8 +3,8 @@
 #include "dev/console.h"
 
 void kbd_init(){
-    irq_enable(IRQ1_KBD);
-    irq_install(IRQ1_KBD, exception_handler_kbd);
+    irq_enable(IRQ0_KBD);
+    irq_install(IRQ0_KBD, exception_handler_kbd);
 }
 
 boot_t get_press(uint8_t data){ // 通过第 7 位判断是否按下
@@ -16,7 +16,7 @@ uint8_t get_key(uint8_t data){ // 剩下 7 位为 code 值
 }
 
 void do_handle_kbd(exception_frame_t *frame) {
-    irq_send_eoi(IRQ1_KBD); // 必须响应才声明能处理下一个了
+    irq_send_eoi(IRQ0_KBD); // 必须响应才声明能处理下一个了
     // 检查是否有数据，无数据则退出
     uint8_t status = inb(KBD_PORT_STAT);
     if (!(status & KBD_STAT_READY)) {

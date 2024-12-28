@@ -91,3 +91,11 @@ DPL：目标数据所需的特权级(位于段描述符)
 ![img_40.png](img_40.png)
 ![img_41.png](img_41.png)
 FAT表 1 与 FAT表 2 互为备份，dbr是元数据信息
+## 声卡
+![img_42.png](img_42.png)
+## wav文件格式
+![img_43.png](img_43.png)
+```shell
+ffmpeg -i music.mp3 -ac 1 -ar 44100 -acodec pcm_u8 -y mono.wav
+ffmpeg -i music.mp3 -ac 2 -ar 44100 -acodec pcm_s16le -y stereo.wav
+```

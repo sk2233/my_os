@@ -72,6 +72,7 @@ exception_handler_\name:
 exception_handler division 0 0
 exception_handler time 0x20 0
 exception_handler kbd 0x21 0
+exception_handler sound 0x25 0
 
     .global syscall_handler
 syscall_handler:
