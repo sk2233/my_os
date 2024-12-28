@@ -68,6 +68,7 @@ void task_init(task_t *task,uint32_t entry,const char *name,uint32_t esp){
     mem_set(&task->tss,0, sizeof(tss_t));
     task->tss.eip=entry;
     task->tss.esp=task->tss.esp0=esp; // xx0 就是对应在特权级 0 下的数据  其他特权级触发问题中断会切换到特权级 0
+    // cs ds ss 必须赋值有效的   es fs gs 扩展的段寄存器 可选使用
     task->tss.ss=task->tss.ss0=task->tss.es=task->tss.ds=task->tss.fs=task->tss.gs=KERNEL_SELECTOR_DS;
     task->tss.cs=KERNEL_SELECTOR_CS;
     task->tss.eflags=EFLAGS_DEFAULT|EFLAGS_IF;

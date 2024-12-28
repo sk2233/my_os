@@ -94,7 +94,7 @@ void irq_send_eoi(int irq_num){
 
 uint32_t irq_enter_protection(){
     uint32_t state = read_eflags();
-    cli(); // 实际就是改  eflags
+    cli(); // 实际就是改  eflags 的 if 位
     return state;
 }
 

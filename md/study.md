@@ -99,3 +99,15 @@ FAT表 1 与 FAT表 2 互为备份，dbr是元数据信息
 ffmpeg -i music.mp3 -ac 1 -ar 44100 -acodec pcm_u8 -y mono.wav
 ffmpeg -i music.mp3 -ac 2 -ar 44100 -acodec pcm_s16le -y stereo.wav
 ```
+## 整体架构
+![img_44.png](img_44.png)
+## 地址转换
+![img_45.png](img_45.png)
+## 内存目录，内存页
+![img_46.png](img_46.png)
+## 调用门
+![img_47.png](img_47.png)
+段页保护(特权级，读写权限)是综合取严的<br>
+中断返回到产生中断代码的下一行执行，异常返回到产生异常代码进行重试执行<br>
+触发中断将关闭中断，iret再打开中断<br>
+中断表中的任务门是开启新的进程处理中断一般不使用<br>
